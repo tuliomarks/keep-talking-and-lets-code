@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EverybodyCodes.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "EverybodyCodes.CLI Search --name 'Neude'"
+    }
+  }
+}
