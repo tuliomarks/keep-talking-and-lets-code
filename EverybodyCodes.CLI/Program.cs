@@ -61,33 +61,39 @@ namespace EverybodyCodes.CLI
 
         private static CommandLineBuilder BuildCommandLine()
         {
-            var root = new RootCommand(@"$ EverybodyCodes.CLI Search --name 'Neude'"){
-                new Command("Search")
+            var searchCommand = new Command("Search")
                 {
                     new Option<string>("--name"){
                         IsRequired = true
                     },
-                }
+                };
 
+            var root = new RootCommand(@"$ EverybodyCodes.CLI Search --name Neude")
+            {
+                searchCommand
             };
-            root.Handler = CommandHandler.Create<string, string, IHost>(Run);
+    
+            searchCommand.Handler = CommandHandler.Create<SearchCommandArgs, IHost>(SearchHandle);
             return new CommandLineBuilder(root);
+           
         }
 
-        private static void Run(string command, string options, IHost host)
+        private static void SearchHandle(SearchCommandArgs options, IHost host)
         {
 
             var loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
             var logger = loggerFactory.CreateLogger(typeof(Program));
 
-            if (command == "Search" && !string.IsNullOrEmpty(options))
+            if (!string.IsNullOrEmpty(options.Name))
             {
                 var service = host.Services.GetRequiredService<ICameraService>();
 
-                var cameras = service.GetByName(options);
+                var cameras = service.GetByName(options.Name);
                 foreach (var cam in cameras)
                 {
-                    logger.LogInformation($"{cam.Id};{cam.Name};{cam.Latitude};{cam.Longitude};");
+                    var text = $"{cam.Id};{cam.Name};{cam.Latitude};{cam.Longitude};";
+                    //logger.LogInformation(text);
+                    Console.WriteLine(text);
                 }
             }
         }

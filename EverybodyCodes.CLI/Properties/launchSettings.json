@@ -2,7 +2,7 @@
   "profiles": {
     "EverybodyCodes.CLI": {
       "commandName": "Project",
-      "commandLineArgs": "EverybodyCodes.CLI Search --name 'Neude'"
+      "commandLineArgs": "Search --name Neude"
     }
   }
 }
